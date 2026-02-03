@@ -1,0 +1,23 @@
+.auction-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+}
+
+.media img {
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(2,6,23,0.12);
+}
+
+.auction-info { background: var(--card-bg); padding: 18px; border-radius: 14px; }
+.price { font-size: 24px; font-weight: 800; margin: 10px 0; color: var(--primary-dark); }
+.timer { color: #ef4444; font-weight: 700; margin-bottom: 16px; }
+
+.bid-box { display: flex; gap: 10px; margin-bottom: 18px; }
+.bid-box input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #002564; }
+.bid-box .btn { padding: 10px 14px; }
+
+ul li { background: #5c0136; padding: 10px; margin-bottom: 8px; border-radius: 8px; }
+
+@media (max-width:800px) { .auction-layout { grid-template-columns: 1fr; } }

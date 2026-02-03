@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login</title>
+  <!-- Fonts & UI -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/utils/toast.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <svg class="logo" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="6" fill="#3b82f6"/><path d="M6 12h12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>Orji Auction</span>
+    </a>
+    <nav class="nav-links">
+      <a href="marketplace.html">Marketplace</a>
+      <a href="login.html" class="btn btn-ghost">Login</a>
+      <a href="register.html" class="btn">Register</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="auth-card card">
+    <h2>Welcome back</h2>
+    <p class="muted">Sign in to continue to Orji Auction</p>
+
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <p class="muted">Don't have an account? <a href="register.html">Register</a></p>
+  </div>
+</div>
+
+<script src="js/auth/header.js"></script>
+<script src="js/config/init.js"></script>
+<script src="js/auth/login.js"></script>
+
+</body>
+</html>

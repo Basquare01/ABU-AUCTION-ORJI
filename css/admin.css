@@ -1,0 +1,16 @@
+.admin-layout { display: grid; grid-template-columns: 380px 1fr; gap: 45px; }
+
+form.card { background: var(--card-bg); padding: 20px; border-radius: 14px; box-shadow: 0 20px 60px rgba(2,6,23,0.06); }
+
+textarea, input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #e6eefc; }
+
+#auctionList .card { margin-bottom: 15px; }
+
+/* admin auction card */
+.admin-auction-card { display:flex; gap: 14px; align-items:flex-start; padding: 12px; }
+.admin-auction-card img { width: 120px; height: 90px; object-fit: cover; border-radius: 10px; }
+.admin-auction-card .info { flex:1; }
+.admin-auction-card .meta { display:flex; gap: 12px; justify-content:space-between; color:var(--muted); font-weight:700; margin-top:8px; }
+.admin-auction-card .actions { margin-top:12px; display:flex; gap:10px; justify-content:flex-end; }
+
+@media (max-width:900px) { .admin-layout { grid-template-columns: 1fr; } }

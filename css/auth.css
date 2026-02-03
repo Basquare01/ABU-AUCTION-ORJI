@@ -1,0 +1,12 @@
+/* Auth adjustments - use site background from main */
+body { background: transparent; }
+
+/* Auth card */
+.auth-card { max-width: 480px; margin: 48px auto; padding: 28px; border-radius: 16px; background: rgba(255,255,255,0.98); color: var(--text-dark); box-shadow: 0 30px 80px rgba(14,23,39,0.12); }
+.auth-card h2 { text-align: left; margin-bottom: 6px; }
+.auth-card .muted { margin-bottom: 18px; color: #475569; }
+.auth-card input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #e6eefc; font-size: 14px; }
+.auth-card button.btn { width: 100%; margin-top: 6px; }
+
+/* small helpers */
+.muted { color: #64748b; font-size: 13px; text-align:center; }
