@@ -1,27 +1,28 @@
-(function initApp() {
+// js/config/init.js
+import { getData, setData } from "../utils/localStorage.js";
 
-  // Admin account
-  if (!localStorage.getItem("admin")) {
-    localStorage.setItem("admin", JSON.stringify({
-      email: "admin@auction.com",
-      password: "admin123",
-      role: "admin"
-    }));
+export function initializeApp() {
+
+  // CREATE DEFAULT ADMIN (ONLY)
+  if (!getData("users")) {
+    setData("users", [
+      {
+        id: "ADMIN_001",
+        name: "System Admin",
+        email: "admin@auction.com",
+        password: "admin123",
+        role: "admin"
+      }
+    ]);
   }
 
-  // Users
-  if (!localStorage.getItem("users")) {
-    localStorage.setItem("users", JSON.stringify([]));
+  // EMPTY AUCTIONS (NO DUMMY DATA)
+  if (!getData("auctions")) {
+    setData("auctions", []);
   }
 
-  // Auctions
-  if (!localStorage.getItem("auctions")) {
-    localStorage.setItem("auctions", JSON.stringify([]));
+  // EMPTY SESSION
+  if (!getData("currentUser")) {
+    setData("currentUser", null);
   }
-
-  // Bids
-  if (!localStorage.getItem("bids")) {
-    localStorage.setItem("bids", JSON.stringify([]));
-  }
-
-})();
+}
