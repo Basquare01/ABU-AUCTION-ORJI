@@ -1,33 +1,48 @@
 const form = document.getElementById("auctionForm");
 const auctionList = document.getElementById("auctionList");
 
+// Ensure auctions array exists (NO dummy data)
+if (!localStorage.getItem("auctions")) {
+  localStorage.setItem("auctions", JSON.stringify([]));
+}
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
+  const imageInput = document.getElementById("image");
+  const imageFile = imageInput.files[0];
+
+  if (!imageFile) {
+    alert("Please upload an image");
+    return;
+  }
+
   const reader = new FileReader();
-  const imageFile = document.getElementById("image").files[0];
 
   reader.onload = function () {
-    const auctions = JSON.parse(localStorage.getItem("auctions"));
+    const auctions = JSON.parse(localStorage.getItem("auctions")) || [];
 
-    const duration = Number(document.getElementById("duration").value);
-    const endTime = Date.now() + duration * 60000;
+    const durationMinutes = Number(document.getElementById("duration").value);
+    const endTime = Date.now() + durationMinutes * 60000;
 
     const auction = {
       id: "AUC-" + Date.now(),
-      title: title.value,
-      description: description.value,
+      title: title.value.trim(),
+      description: description.value.trim(),
       image: reader.result,
-      startPrice: Number(price.value),
+      startingPrice: Number(price.value),
       currentBid: Number(price.value),
+      bids: [],
       endTime: endTime,
-      status: "active"
+      status: "active",
+      createdAt: Date.now()
     };
 
     auctions.push(auction);
     localStorage.setItem("auctions", JSON.stringify(auctions));
 
-    showToast("Auction Created Successfully");
+    alert("Auction created successfully");
+
     form.reset();
     renderAuctions();
   };
@@ -36,8 +51,15 @@ form.addEventListener("submit", function (e) {
 });
 
 function renderAuctions() {
-  const auctions = JSON.parse(localStorage.getItem('auctions')) || [];
-  auctionList.innerHTML = '';
+  const auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+  auctionList.innerHTML = "";
+
+  if (auctions.length === 0) {
+    auctionList.innerHTML = `
+      <p class="empty-text">No auctions created yet.</p>
+    `;
+    return;
+  }
 
   auctions.forEach(a => {
     auctionList.innerHTML += `
@@ -45,10 +67,21 @@ function renderAuctions() {
         <img src="${a.image}" alt="${a.title}">
         <div class="info">
           <h4>${a.title}</h4>
-          <p class="muted">${a.description || ''}</p>
-          <div class="meta"><span>Current: ₦${a.currentBid}</span><span>${a.status}</span></div>
+          <p class="muted">${a.description || ""}</p>
+
+          <div class="meta">
+            <span>Current: ₦${a.currentBid.toLocaleString()}</span>
+            <span class="${a.status === 'active' ? 'active' : 'closed'}">
+              ${a.status.toUpperCase()}
+            </span>
+          </div>
+
           <div class="actions">
-            <button class="btn btn-ghost close-btn">Close</button>
+            ${
+              a.status === "active"
+                ? `<button class="btn btn-ghost close-btn">Close</button>`
+                : ""
+            }
             <button class="btn delete-btn">Delete</button>
           </div>
         </div>
@@ -57,40 +90,41 @@ function renderAuctions() {
   });
 }
 
-// handle actions via delegation
-auctionList.addEventListener('click', function (e) {
-  const card = e.target.closest('.admin-auction-card');
+// Handle actions via delegation
+auctionList.addEventListener("click", function (e) {
+  const card = e.target.closest(".admin-auction-card");
   if (!card) return;
+
   const id = card.dataset.id;
 
-  if (e.target.classList.contains('delete-btn')) {
-    if (!confirm('Delete this auction?')) return;
+  if (e.target.classList.contains("delete-btn")) {
+    if (!confirm("Delete this auction?")) return;
     deleteAuction(id);
   }
 
-  if (e.target.classList.contains('close-btn')) {
-    showConfirm({
-      message: 'Close this auction? This cannot be undone.',
-      onConfirm: function() { closeAuction(id); },
-      onCancel: function() { showToast('Close cancelled', 'error'); }
-    });
+  if (e.target.classList.contains("close-btn")) {
+    if (!confirm("Close this auction?")) return;
+    closeAuction(id);
   }
 });
 
 function deleteAuction(id) {
-  let auctions = JSON.parse(localStorage.getItem('auctions')) || [];
+  let auctions = JSON.parse(localStorage.getItem("auctions")) || [];
   auctions = auctions.filter(a => a.id !== id);
-  localStorage.setItem('auctions', JSON.stringify(auctions));
+
+  localStorage.setItem("auctions", JSON.stringify(auctions));
   renderAuctions();
 }
 
 function closeAuction(id) {
-  const auctions = JSON.parse(localStorage.getItem('auctions')) || [];
-  const a = auctions.find(x => x.id === id);
-  if (!a) return;
-  a.status = 'closed';
-  localStorage.setItem('auctions', JSON.stringify(auctions));
+  const auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+  const auction = auctions.find(a => a.id === id);
+  if (!auction) return;
+
+  auction.status = "closed";
+  localStorage.setItem("auctions", JSON.stringify(auctions));
   renderAuctions();
 }
 
+// Initial load
 renderAuctions();
